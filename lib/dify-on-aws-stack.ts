@@ -30,7 +30,6 @@ export class DifyOnAwsStack extends cdk.Stack {
     const {
       difyImageTag: imageTag = 'latest',
       difySandboxImageTag: sandboxImageTag = 'latest',
-      difyPluginDaemonImageTag: pluginDaemonImageTag = 'main-local',
       allowAnySyscalls = false,
       useCloudFront = true,
       internalAlb = false,
@@ -152,7 +151,6 @@ export class DifyOnAwsStack extends cdk.Stack {
       email,
       imageTag,
       sandboxImageTag,
-      pluginDaemonImageTag,
       allowAnySyscalls,
       customRepository,
       additionalEnvironmentVariables: props.additionalEnvironmentVariables,

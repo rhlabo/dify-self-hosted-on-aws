@@ -6,14 +6,13 @@ const execAsync = promisify(exec);
 
 const difyImageTag = props.difyImageTag ?? 'latest';
 const difySandboxImageTag = props.difySandboxImageTag ?? 'latest';
-const difyPluginDaemonImageTag = props.difyPluginDaemonImageTag ?? 'main-local';
 const repositoryName = props.customEcrRepositoryName;
 
 const DOCKER_HUB_IMAGES = [
   `langgenius/dify-web:${difyImageTag}`,
   `langgenius/dify-api:${difyImageTag}`,
   `langgenius/dify-sandbox:${difySandboxImageTag}`,
-  `langgenius/dify-plugin-daemon:${difyPluginDaemonImageTag}`,
+  `langgenius/dify-plugin-daemon:main-local`,
 ];
 
 interface AWSConfig {
@@ -61,7 +60,7 @@ async function ensureECRRepository(repositoryName: string, awsConfig: AWSConfig)
 async function processImage(dockerHubImage: string, repositoryName: string, awsConfig: AWSConfig): Promise<void> {
   try {
     const { accountId, region } = awsConfig;
-    const ecrImageTag = dockerHubImage.replace(':', '_').replace('langgenius/', '');
+    const ecrImageTag = dockerHubImage.replace(':', '_');
     const ecrImageUri = `${accountId}.dkr.ecr.${region}.amazonaws.com/${repositoryName}:${ecrImageTag}`;
 
     await execAsync(`docker buildx imagetools create --tag "${ecrImageUri}" "${dockerHubImage}"`);
